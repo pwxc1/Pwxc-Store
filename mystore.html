@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-tag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWXC STORE</title>
+    <style>
+        :root {
+            --gta-green: #00ff62;
+            --neon-cyan: #00bcff;
+            --neon-pink: #ff007f;
+            --dark-bg: #0a0a0c;
+            --card-bg: rgba(10, 10, 12, 0.85);
+            --white: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-image: linear-gradient(rgba(5, 5, 5, 0.55), rgba(5, 5, 5, 0.8)), 
+                              url('https://i.postimg.cc/1tR6ngdn/IMG-2184.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: var(--dark-bg);
+            color: var(--white);
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Moving Cyber-Grid Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center;
+            z-index: 0;
+            pointer-events: none;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(30px); }
+        }
+
+        /* --- COLOR-CHANGING & FADE-IN INTRO SCREEN --- */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: #050508;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .intro-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #fff, var(--gta-green), var(--neon-cyan), var(--neon-pink), #fff);
+            background-size: 400% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeInText 1.2s ease-out forwards, shiftColor 4s linear infinite;
+        }
+
+        .intro-sub {
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--gta-green), var(--neon-cyan), var(--neon-pink), var(--gta-green));
+            background-size: 400% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeInText 1.2s ease-out 0.3s forwards, shiftColor 4s linear infinite;
+        }
+
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        @keyframes shiftColor {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 400% 0%; }
+        }
+
+        /* --- MOVING COLOR WAVE ANIMATION --- */
+        @keyframes waveForward {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 300% 0%; }
+        }
+
+        .lang-switch {
+            position: fixed; top: 20px; left: 20px; 
+            background: transparent; color: var(--gta-green); 
+            border: 2px solid var(--gta-green); padding: 10px 22px; border-radius: 50px;
+            font-weight: 900; cursor: pointer; z-index: 1000;
+            text-transform: uppercase;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(0, 255, 98, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        [dir="ltr"] .lang-switch { left: auto; right: 20px; letter-spacing: 1px; }
+        .lang-switch:hover { background: var(--gta-green); color: #000; box-shadow: 0 0 25px var(--gta-green); }
+        .lang-switch:active { transform: scale(0.9); }
+
+        /* Color-Flow Header Border */
+        .header { 
+            padding: 60px 20px 45px 20px; text-align: center; 
+            background: rgba(10,10,12,0.8);
+            backdrop-filter: blur(4px);
+            border-bottom: 4px solid transparent !important;
+            background-image: linear-gradient(rgba(10, 10, 12, 0.8), rgba(10, 10, 12, 0.8)), 
+                              linear-gradient(90deg, #2ecc71, #00ff62, #00bcff, #ff007f, #2ecc71) !important;
+            background-origin: border-box !important;
+            background-clip: padding-box, border-box !important;
+            background-size: 100% 100%, 300% 100% !important;
+            animation: waveForward 7s linear infinite !important;
+        }
+        .header h1 { 
+            font-size: 3.2rem; font-weight: 900;
+            background: linear-gradient(135deg, #fff 40%, #a0a0a0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0,255,98,0.4));
+        }
+        [dir="ltr"] .header h1 { letter-spacing: 1px; }
+
+        .header .established { 
+            font-size: 0.85rem; color: var(--gta-green); 
+            font-weight: 900; margin: 4px 0 12px 0; text-shadow: 0 0 8px rgba(0,255,98,0.5);
+        }
+        [dir="ltr"] .header .established { letter-spacing: 4px; }
+        .header p.subtitle { color: #ccc; font-size: 1.1rem; font-weight: bold; }
+
+        .container { padding: 30px 20px; max-width: 480px; margin: auto; position: relative; z-index: 1; }
+
+        /* Main Notice Card with Active Color Shift Borders */
+        .payment-notice {
+            border: 3px solid transparent !important;
+            background-image: linear-gradient(rgba(10, 10, 12, 0.9), rgba(10, 10, 12, 0.9)), 
+                              linear-gradient(90deg, #2ecc71, #00ff62, #00bcff, #ff007f, #2ecc71) !important;
+            background-origin: border-box !important;
+            background-clip: padding-box, border-box !important;
+            background-size: 100% 100%, 300% 100% !important;
+            animation: waveForward 6s linear infinite !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 255, 98, 0.15);
+            padding: 25px 20px; border-radius: 20px; text-align: center; margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .payment-notice h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: 4px; color: white; }
+        .payment-notice p { color: #ddd; font-size: 0.95rem; }
+
+        .section-title {
+            color: #fff; font-size: 0.85rem; font-weight: 900;
+            text-transform: uppercase; margin: 25px 0 15px 0; text-align: center;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            opacity: 0.7;
+        }
+        [dir="ltr"] .section-title { letter-spacing: 2px; }
+        .section-title::before, .section-title::after { content: ""; height: 1px; flex-grow: 1; background: rgba(255,255,255,0.2); }
+
+        .region-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        .region-box { 
+            border: 2px solid transparent !important;
+            background-image: linear-gradient(rgba(20, 20, 25, 0.9), rgba(20, 20, 25, 0.9)), 
+                              linear-gradient(135deg, #2ecc71, #ff007f, #00bcff, #00ff62, #2ecc71) !important;
+            background-origin: border-box !important;
+            background-clip: padding-box, border-box !important;
+            background-size: 100% 100%, 300% 100% !important;
+            animation: waveForward 8s linear infinite !important;
+            padding: 14px 10px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; color: #fff;
+        }
+
+        /* Social Link Networks Styling */
+        .social-link {
+            display: flex; align-items: center; justify-content: center; gap: 12px; 
+            color: white; text-decoration: none; padding: 14px; border-radius: 12px; 
+            font-weight: 800; margin-bottom: 12px; font-size: 0.95rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
+            cursor: pointer;
+        }
+        .social-link:active { transform: scale(0.97); }
+
+        /* Showcase Banner Box styling */
+        .collection-notice-banner {
+            background: rgba(0, 188, 255, 0.07);
+            border: 2px dashed rgba(0, 188, 255, 0.6);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #eee;
+            box-shadow: 0 0 15px rgba(0, 188, 255, 0.1);
+        }
+        .collection-notice-banner span {
+            color: var(--gta-green);
+            text-shadow: 0 0 5px rgba(0, 255, 98, 0.3);
+        }
+
+        /* Item Bundles Cards with Full Rolling Color Borders */
+        .item-card {
+            border: 3px solid transparent !important;
+            background-image: linear-gradient(rgba(10, 10, 12, 0.9), rgba(10, 10, 12, 0.9)), 
+                              linear-gradient(90deg, #ff007f, #00bcff, #00ff62, #2ecc71, #ff007f) !important;
+            background-origin: border-box !important;
+            background-clip: padding-box, border-box !important;
+            background-size: 100% 100%, 300% 100% !important;
+            animation: waveForward 6.5s linear infinite !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 12px rgba(0, 255, 98, 0.1);
+            padding: 22px; margin-bottom: 16px; display: flex; justify-content: space-between;
+            align-items: center; border-radius: 20px; cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .item-card:hover { transform: translateY(-2px); }
+
+        .item-card .info h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: 4px; color: white; }
+        .item-card .info p { color: #aaa; font-size: 0.85rem; font-weight: bold; }
+
+        .price-tag { 
+            font-size: 1.5rem; font-weight: 900; color: var(--gta-green); 
+            background: rgba(0, 255, 98, 0.12); padding: 6px 14px; border-radius: 10px;
+            text-shadow: 0 0 10px rgba(0,255,98,0.3);
+        }
+
+        /* Interactive Click States */
+        .item-card.clicked {
+            transform: scale(0.95);
+            background: var(--gta-green) !important;
+            box-shadow: 0 0 30px var(--gta-green) !important;
+            animation: none !important;
+            border: 3px solid white !important;
+        }
+        .item-card.clicked .info h3, .item-card.clicked .info p, .item-card.clicked .price-tag { color: black !important; text-shadow: none !important; }
+
+        #gallery-section { display: none; }
+        .car-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        
+        .car-item { 
+            border: 3px solid transparent !important;
+            background-image: linear-gradient(rgba(10, 10, 12, 0.9), rgba(10, 10, 12, 0.9)), 
+                              linear-gradient(90deg, #2ecc71, #00ff62, #00bcff, #ff007f, #2ecc71) !important;
+            background-origin: border-box !important;
+            background-clip: padding-box, border-box !important;
+            background-size: 100% 100%, 300% 100% !important;
+            animation: waveForward 6s linear infinite !important;
+            border-radius: 20px; overflow: hidden; text-align: center;
+            cursor: pointer; transition: transform 0.3s ease;
+        }
+        .car-item:hover { transform: translateY(-3px); }
+        .car-item.clicked { transform: scale(0.95); border-color: #fff !important; box-shadow: 0 0 20px var(--gta-green) !important; animation: none !important; }
+        
+        .car-item img { width: 100%; height: 135px; object-fit: cover; }
+        .car-item p { padding: 12px; font-weight: 800; font-size: 0.95rem; color: #fff; }
+
+        .back-btn { 
+            margin-top: 30px; background: var(--gta-green); border: none; color: black; 
+            padding: 15px; border-radius: 14px; width: 100%; cursor: pointer; font-weight: 900;
+            transition: all 0.2s; box-shadow: 0 0 15px var(--gta-green);
+        }
+        [dir="ltr"] .back-btn { letter-spacing: 1px; }
+        .back-btn:active { transform: scale(0.97); }
+
+        .footer { text-align: center; padding: 50px 20px 20px 20px; font-size: 0.9rem; color: #888; font-weight: bold; text-shadow: 0 2px 4px black; }
+
+        /* --- CONTACT MODAL STYLING --- */
+        #contact-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            border: 3px solid transparent !important;
+            background-image: linear-gradient(rgba(15, 15, 20, 0.95), rgba(15, 15, 20, 0.95)), 
+                              linear-gradient(90deg, #2ecc71, #00ff62, #00bcff, #ff007f, #2ecc71) !important;
+            background-origin: border-box !important;
+            background-clip: padding-box, border-box !important;
+            background-size: 100% 100%, 300% 100% !important;
+            animation: waveForward 6s linear infinite !important;
+            border-radius: 24px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px rgba(0, 255, 98, 0.2);
+        }
+
+        .modal-content h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .modal-content p {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 24px;
+            font-weight: bold;
+        }
+
+        .contact-option-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s, filter 0.2s;
+        }
+        .contact-option-btn:active { transform: scale(0.97); }
+        .contact-option-btn:hover { filter: brightness(1.15); }
+
+        .modal-close-btn {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: #aaa;
+            padding: 12px;
+            border-radius: 14px;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .modal-close-btn:hover { background: rgba(255,255,255,0.05); color: #fff; border-color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen">
+        <div class="intro-title">PWXC STORE</div>
+        <div class="intro-sub">SINCE 2024</div>
+    </div>
+
+    <!-- Contact Selection Modal -->
+    <div id="contact-modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">اختر طريقة التواصل</h3>
+            <p id="modalSub">تواصل معنا لإتمام طلبك فوراً</p>
+            
+            <a id="whatsappModalBtn" class="contact-option-btn" href="#" style="background: #25D366;">
+                <svg viewBox="0 0 24 24" style="width: 24px; height: 24px; fill: currentColor;">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                </svg>
+                WhatsApp
+            </a>
+
+            <a id="discordModalBtn" class="contact-option-btn" href="https://discord.com/users/840722204919726161" target="_blank" style="background: #5865F2;">
+                <svg viewBox="0 0 127.14 96.36" style="width: 24px; height: 24px; fill: currentColor;">
+                    <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a74.37,74.37,0,0,0,6.72-10.93,68.6,68.6,0,0,1-10.64-5.12c.91-.67,1.81-1.37,2.65-2.1a75.22,75.22,0,0,0,72.94,0c.84.73,1.74,1.43,2.65,2.1a68.86,68.86,0,0,1-10.65,5.12,74.74,74.74,0,0,0,6.71,10.93,105.54,105.54,0,0,0,31.06-18.83C129.66,50.7,123.83,27.78,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.92,46,53.77,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.16,46,96,53,91,65.69,84.69,65.69Z"/>
+                </svg>
+                Discord
+            </a>
+
+            <button class="modal-close-btn" onclick="closeContactModal()" id="modalCloseBtn">إلغاء</button>
+        </div>
+    </div>
+
+    <button class="lang-switch" onclick="toggleLang()" id="langBtn">English</button>
+
+    <div class="header">
+        <h1>PWXC STORE</h1>
+        <div class="established">SINCE 2024</div>
+        <p id="subTitle" class="subtitle">مودات سيارات • الحصري عندنا</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="payment-notice">
+            <h2 id="payMainTitle">💳 طريقة الدفع</h2>
+            <p id="payMethod">نقبل فقط بطاقات الستور (PSN)</p>
+            
+            <div class="section-title" id="collectionTitle">سيرفر ديسكورد (للأجانب) • قناة تليقرام (للعرب):</div>
+            
+            <div class="collection-notice-banner" id="collectionBanner">
+                📸 تشكيلة السيارات الكاملة متوفرة في قنواتنا على <span>التليقرام</span> و <span>الديسكورد</span> بالأسفل!
+            </div>
+            
+            <a id="discordButton" class="social-link" href="https://discord.com/users/840722204919726161" target="_blank" style="background: #5865F2;" onmouseenter="this.style.filter='brightness(1.15)'" onmouseleave="this.style.filter='none'">
+                <svg viewBox="0 0 127.14 96.36" style="width: 22px; height: 22px; fill: currentColor;">
+                    <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a74.37,74.37,0,0,0,6.72-10.93,68.6,68.6,0,0,1-10.64-5.12c.91-.67,1.81-1.37,2.65-2.1a75.22,75.22,0,0,0,72.94,0c.84.73,1.74,1.43,2.65,2.1a68.86,68.86,0,0,1-10.65,5.12,74.74,74.74,0,0,0,6.71,10.93,105.54,105.54,0,0,0,31.06-18.83C129.66,50.7,123.83,27.78,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.92,46,53.77,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.16,46,96,53,91,65.69,84.69,65.69Z"/>
+                </svg>
+                Discord
+            </a>
+
+            <a id="telegramButton" class="social-link" href="https://t.me/+_ucmMGV20pkzYjk8" target="_blank" style="background: #0088cc;" onmouseenter="this.style.filter='brightness(1.15)'" onmouseleave="this.style.filter='none'">
+                <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.53-1.39.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.88.03-.24.36-.49.99-.75 3.87-1.69 6.45-2.8 7.74-3.35 3.69-1.56 4.45-1.83 4.95-1.84.11 0 .36.03.52.16.14.11.18.27.19.39-.01.07 0 .14-.01.21z"/>
+                </svg>
+                Telegram
+            </a>
+
+            <div class="section-title" id="regionTitle">الدول المقبولة:</div>
+            <div class="region-grid">
+                <div class="region-box" id="reg1">🇰🇼 كويتي (KW)</div>
+                <div class="region-box" id="reg2">🇸🇦 سعودي (SA)</div>
+                <div class="region-box" id="reg3">🇺🇸 أمريكي (US)</div>
+                <div class="region-box" id="reg4">🇦🇪 إماراتي (UAE)</div>
+            </div>
+        </div>
+
+        <div id="main-menu">
+            <div class="section-title" id="pkgTitle">🚗 باقات السيارات</div>
+            
+            <div class="item-card" onclick="handleAction(this, 'pack20')">
+                <div class="info"><h3 id="card1Title">باقة 20 سيارة</h3><p id="card1Desc">اختيارك الشخصي • تسليم فوري</p></div>
+                <div class="price-tag">10$</div>
+            </div>
+
+            <div class="item-card" onclick="handleAction(this, 'pack30')">
+                <div class="info"><h3 id="card2Title">باقة 30 سيارة</h3><p id="card2Desc">اختيارك الشخصي • تسليم سريع</p></div>
+                <div class="price-tag">20$</div>
+            </div>
+
+            <div class="item-card" onclick="handleAction(this, 'gallery')">
+                <div class="info"><h3 id="galleryBtnTitle">استعراض الأطقم الحصرية</h3><p id="galleryBtnDesc">شوف المواتر المتوفرة الآن</p></div>
+                <div class="price-tag">📸</div>
+            </div>
+        </div>
+
+        <div id="gallery-section">
+            <div class="section-title" id="itemsTitle">الأطقم المتوفرة (10$ للطقم)</div>
+            <div class="car-grid">
+                <div class="car-item" onclick="handleAction(this, 'set1')"><img src="https://i.postimg.cc/vZDmCrVn/IMG-1957.jpg"><p class="pack-name">طقم #1</p></div>
+                <div class="car-item" onclick="handleAction(this, 'set2')"><img src="https://i.postimg.cc/6q1kZvps/IMG-1401.jpg"><p class="pack-name">طقم #2</p></div>
+                <div class="car-item" onclick="handleAction(this, 'set3')"><img src="https://i.postimg.cc/0yST6rgc/IMG-1387.jpg"><p class="pack-name">طقم #3</p></div>
+                <div class="car-item" onclick="handleAction(this, 'set4')"><img src="https://i.postimg.cc/sgCnNc8q/IMG-2183.jpg"><p class="pack-name">طقم #4</p></div>
+            </div>
+            <button onclick="hideGallery()" class="back-btn" id="backBtnText">رجوع للقائمة</button>
+        </div>
+
+        <div class="footer" id="footerText">جميع الحقوق محفوظة لشبكة حمود © 2026</div>
+    </div>
+
+    <script>
+        let currentLang = 'ar';
+
+        // Timing sequence for intro text fading animation
+        window.addEventListener('DOMContentLoaded', () => {
+            const introScreen = document.getElementById('intro-screen');
+            
+            setTimeout(() => {
+                introScreen.style.opacity = '0';
+                setTimeout(() => {
+                    introScreen.style.display = 'none';
+                }, 600);
+            }, 3000); 
+        });
+
+        function handleAction(element, action) {
+            element.classList.add('clicked'); 
+            
+            setTimeout(() => {
+                element.classList.remove('clicked'); 
+                
+                if (action === 'gallery') {
+                    showGallery();
+                } else {
+                    let phoneNumber = "96550900234";
+                    let message = "";
+
+                    if (currentLang === 'ar') {
+                        if (action === 'pack20') message = "سلام عليكم حمود، ابي باقة 20 سيارة";
+                        else if (action === 'pack30') message = "سلام عليكم حمود، ابي باقة 30 سيارة";
+                        else if (action === 'set1') message = "ابي الطقم الاول بـ 10$";
+                        else if (action === 'set2') message = "ابي الطقم الثاني بـ 10$";
+                        else if (action === 'set3') message = "ابي الطقم الثالث بـ 10$";
+                        else if (action === 'set4') message = "ابي الطقم الرابع بـ 10$";
+                    } else {
+                        if (action === 'pack20') message = "Hello Homoud, I want the 20 Cars Bundle";
+                        else if (action === 'pack30') message = "Hello Homoud, I want the 30 Cars Bundle";
+                        else if (action === 'set1') message = "I want Set #1 for 10$";
+                        else if (action === 'set2') message = "I want Set #2 for 10$";
+                        else if (action === 'set3') message = "I want Set #3 for 10$";
+                        else if (action === 'set4') message = "I want Set #4 for 10$";
+                    }
+
+                    // Open Contact Selection Modal instead of directing straight to WhatsApp
+                    openContactModal(phoneNumber, message);
+                }
+            }, 250);
+        }
+
+        function openContactModal(phoneNumber, message) {
+            const modal = document.getElementById('contact-modal');
+            const waBtn = document.getElementById('whatsappModalBtn');
+            
+            // Set WhatsApp href with encoded message
+            waBtn.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeContactModal() {
+            document.getElementById('contact-modal').style.display = 'none';
+        }
+
+        function showGallery() { 
+            document.getElementById('main-menu').style.display = 'none'; 
+            document.getElementById('gallery-section').style.display = 'block'; 
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function hideGallery() { 
+            document.getElementById('gallery-section').style.display = 'none'; 
+            document.getElementById('main-menu').style.display = 'block';
+        }
+        
+        function toggleLang() {
+            const html = document.getElementById('html-tag');
+            const btn = document.getElementById('langBtn');
+            const packNames = document.getElementsByClassName('pack-name');
+            
+            if (currentLang === 'ar') {
+                html.dir = 'ltr'; btn.innerText = 'العربية';
+                
+                document.getElementById('subTitle').innerText = 'Vehicle Mods • Exclusive Content';
+                document.getElementById('payMainTitle').innerText = '💳 Payment Method';
+                document.getElementById('payMethod').innerText = 'We only accept PSN Gift Cards';
+                document.getElementById('collectionTitle').innerText = 'Discord Profile (English) • Telegram Channel (Arabic):';
+                document.getElementById('regionTitle').innerText = 'Accepted Regions:';
+                document.getElementById('reg1').innerText = '🇰🇼 Kuwait (KW)';
+                document.getElementById('reg2').innerText = '🇸🇦 Saudi (SA)';
+                document.getElementById('reg3').innerText = '🇺🇸 USA (US)';
+                document.getElementById('reg4').innerText = '🇦🇪 UAE';
+                document.getElementById('pkgTitle').innerText = '🚗 Car Bundles';
+                document.getElementById('card1Title').innerText = '20 Cars Bundle';
+                document.getElementById('card1Desc').innerText = 'Personal Choice • Instant Delivery';
+                document.getElementById('card2Title').innerText = '30 Cars Bundle';
+                document.getElementById('card2Desc').innerText = 'Personal Choice • Fast Delivery';
+                document.getElementById('collectionBanner').innerHTML = '📸 Our full car collections are available in our <span>Telegram</span> and <span>Discord</span> channels below!';
+                document.getElementById('galleryBtnTitle').innerText = 'Show Exclusive Sets';
+                document.getElementById('galleryBtnDesc').innerText = 'Check available cars now';
+                document.getElementById('itemsTitle').innerText = 'Available Sets (10$ each)';
+                document.getElementById('backBtnText').innerText = 'Back to Menu';
+                document.getElementById('footerText').innerText = 'All rights reserved to Hamood Network © 2026';
+                
+                // Modal translations
+                document.getElementById('modalTitle').innerText = 'Choose Contact Method';
+                document.getElementById('modalSub').innerText = 'Contact us to complete your order instantly';
+                document.getElementById('modalCloseBtn').innerText = 'Cancel';
+
+                for(let i=0; i<packNames.length; i++) { packNames[i].innerText = 'Set #' + (i+1); }
+                currentLang = 'en';
+            } else {
+                html.dir = 'rtl'; btn.innerText = 'English';
+                
+                document.getElementById('subTitle').innerText = 'مودات سيارات • الحصري عندنا';
+                document.getElementById('payMainTitle').innerText = '💳 طريقة الدفع';
+                document.getElementById('payMethod').innerText = 'نقبل فقط بطاقات الستور (PSN)';
+                document.getElementById('collectionTitle').innerText = 'حساب ديسكورد (للأجانب) • قناة تليقرام (للعرب):';
+                document.getElementById('regionTitle').innerText = 'الدول المقبولة:';
+                document.getElementById('reg1').innerText = '🇰🇼 كويتي (KW)';
+                document.getElementById('reg2').innerText = '🇸🇦 سعودي (SA)';
+                document.getElementById('reg3').innerText = '🇺🇸 أمريكي (US)';
+                document.getElementById('reg4').innerText = '🇦🇪 إماراتي (UAE)';
+                document.getElementById('pkgTitle').innerText = '🚗 باقات السيارات';
+                document.getElementById('card1Title').innerText = 'باقة 20 سيارة';
+                document.getElementById('card1Desc').innerText = 'اختيارك الشخصي • تسليم فوري';
+                document.getElementById('card2Title').innerText = 'باقة 30 سيارة';
+                document.getElementById('card2Desc').innerText = 'اختيارك الشخصي • تسليم سريع';
+                document.getElementById('collectionBanner').innerHTML = '📸 تشكيلة السيارات الكاملة متوفرة في قنواتنا على <span>التليقرام</span> و <span>الديسكورد</span> بالأسفل!';
+                document.getElementById('galleryBtnTitle').innerText = 'استعراض الأطقم الحصرية';
+                document.getElementById('galleryBtnDesc').innerText = 'شوف المواتر المتوفرة الآن';
+                document.getElementById('itemsTitle').innerText = 'الأطقم المتوفرة (10$ للطقم)';
+                document.getElementById('backBtnText').innerText = 'رجوع للقائمة';
+                document.getElementById('footerText').innerText = 'جميع الحقوق محفوظة لشبكة حمود © 2026';
+                
+                // Modal translations
+                document.getElementById('modalTitle').innerText = 'اختر طريقة التواصل';
+                document.getElementById('modalSub').innerText = 'تواصل معنا لإتمام طلبك فوراً';
+                document.getElementById('modalCloseBtn').innerText = 'إلغاء';
+
+                for(let i=0; i<packNames.length; i++) { packNames[i].innerText = 'طقم #' + (i+1); }
+                currentLang = 'ar';
+            }
+        }
+    </script>
+</body>
+</html>
